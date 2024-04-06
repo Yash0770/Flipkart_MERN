@@ -9,8 +9,8 @@ import DefaultData from "./default.js";
 import Router from "./routes/route.js";
 
 const app = express();
-// const PORT = process.env.PORT || 7000;
-const PORT = 7000;
+const PORT = process.env.PORT || 7000;
+// const PORT = 7000;
 
 dotenv.config();
 
@@ -22,7 +22,8 @@ app.use("/", Router);
 const USERNAME = process.env.DB_USERNAME;
 const PASSWORD = process.env.DB_PASSWORD;
 
-const URL = process.env.MONGODB_URI || `mongodb+srv://${USERNAME}:${PASSWORD}@ecommerce-web.qbsr52x.mongodb.net/?retryWrites=true&w=majority&appName=ecommerce-web`;
+// const URL = process.env.MONGODB_URI || `mongodb+srv://${USERNAME}:${PASSWORD}@ecommerce-web.qbsr52x.mongodb.net/?retryWrites=true&w=majority&appName=ecommerce-web`;
+const URL = `mongodb+srv://${USERNAME}:${PASSWORD}@ecommerce-web.qbsr52x.mongodb.net/?retryWrites=true&w=majority&appName=ecommerce-web`;
 
 Connection(URL);
 
