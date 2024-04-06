@@ -14,11 +14,11 @@ const reducer = combineReducers({
 
 const middleware = [thunk];
 
-const store = createStore(
-  reducer,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
-// const store = createStore(reducer, applyMiddleware(...middleware));  // use this if not added devTools extentions
+// const store = createStore(
+//   reducer,
+//   composeWithDevTools(applyMiddleware(...middleware))
+// );
+const store = createStore(reducer, applyMiddleware(...middleware));  // use this if not added devTools extentions
 
 
 export default store;
