@@ -9,7 +9,8 @@ import DefaultData from "./default.js";
 import Router from "./routes/route.js";
 
 const app = express();
-const PORT = process.env.PORT || 7000;
+// const PORT = process.env.PORT || 7000;
+const PORT = 7000;
 
 dotenv.config();
 
@@ -48,4 +49,3 @@ paytmParams["TXN_AMOUNT"] = '100';
 paytmParams["CALLBACK_URL"] = 'callback';
 paytmParams["EMAIL"] = 'yashsingh77@gmail.com';
 paytmParams["MOBILE_NO"] = '1234567890';
-
