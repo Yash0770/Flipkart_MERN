@@ -48,3 +48,4 @@ paytmParams["TXN_AMOUNT"] = '100';
 paytmParams["CALLBACK_URL"] = 'callback';
 paytmParams["EMAIL"] = 'yashsingh77@gmail.com';
 paytmParams["MOBILE_NO"] = '1234567890';
+
