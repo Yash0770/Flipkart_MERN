@@ -1,0 +1,19 @@
+
+.navbar-btn{
+  margin-right: 40px !important;
+  font-size: 16px;
+  align-items: center;
+}
+
+.login-dialog-button{
+  text-transform: none;
+}
+
+@media (max-width: 768px) {
+  .login-custom-btn {
+    display: block !important;
+  }
+  .wrapper-btn{
+    display: block !important;
+  }
+}
