@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // const URL = "http://localhost:7000";
-const URL = "https://flipkart-backend-mern.vercel.app/";
+const URL = "https://yash-flipkart-clone-backend.vercel.app";
 // const URL = "";
 
 export const authenticateSignup = async (data) => {
