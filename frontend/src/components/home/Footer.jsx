@@ -51,31 +51,31 @@ const Footer = () => {
                 <Heading style={{ color: "#8c8c8c" }}>About</Heading>
                 <UnorderedList>
                   <List>
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       Contact Us
                     </a>
                   </List>
                   <List>
                     {" "}
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       About Us
                     </a>
                   </List>
                   <List>
                     {" "}
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       Careers
                     </a>
                   </List>
                   <List>
                     {" "}
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       Flipkart Stories
                     </a>
                   </List>
                   <List>
                     {" "}
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       Press
                     </a>
                   </List>
@@ -85,25 +85,25 @@ const Footer = () => {
                 <Heading style={{ color: "#8c8c8c" }}>Group Companies</Heading>
                 <UnorderedList>
                   <List>
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       Myntra
                     </a>
                   </List>
                   <List>
                     {" "}
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       Flipkart Wholesale
                     </a>
                   </List>
                   <List>
                     {" "}
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       Cleartrip
                     </a>
                   </List>
                   <List>
                     {" "}
-                    <a className="custom-anchor-tag" href="https://google.com">
+                    <a className="custom-anchor-tag" href="/loading">
                       Shopsy
                     </a>
                   </List>
