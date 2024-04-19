@@ -8,6 +8,7 @@ import { getProducts } from "../../redux/actions/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import MidSlide from "./MidSlide";
 import MidSection from "./MidSection";
+import Footer from "./Footer";
 
 const Component = styled(Box)`
   padding: 10px;
@@ -43,6 +44,7 @@ const Home = () => {
         />
         <Slide products={products} title="Season's top picks" timer={false} />
       </Component>
+      <Footer />
     </>
   );
 };
