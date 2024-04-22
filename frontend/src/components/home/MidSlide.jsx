@@ -7,7 +7,7 @@ const Component = styled(Box)`
 `;
 
 const LeftComponet = styled(Box)(({ theme }) => ({
-  width: "83%",
+  width: "75%",
 
   [theme.breakpoints.down("md")]: {
     width: "100%",
@@ -19,7 +19,7 @@ const RightComponet = styled(Box)(({ theme }) => ({
   padding: "5px",
   marginTop: "10px",
   marginLeft: "10px",
-  width: "17%",
+  width: "25%",
   textAlign: "center",
 
   [theme.breakpoints.down("md")]: {

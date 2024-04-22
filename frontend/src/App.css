@@ -17,3 +17,9 @@
     display: block !important;
   }
 }
+
+@media (max-width: 1600px) {
+  .login-custom-btn {
+    margin-left: 20px !important;
+  }
+}

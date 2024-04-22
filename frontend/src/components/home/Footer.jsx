@@ -44,7 +44,7 @@ const Footer = () => {
   return (
     <>
       <Component className="container-fluid">
-        <Container className="container">
+        <Container className="container px-4">
           <div className="row d-flex">
             {/* <div className="col-lg-7 col-md-12 col-sm-12 d-flex"> */}
               <div className="col-lg-3 col-md-6 d-flex flex-column mt-3">
@@ -142,12 +142,16 @@ const Footer = () => {
           </div>
         </Container>
         <div className="horizontal-line mt-4"></div>
-        <Container className="container">
-        <div className="d-flex justify-content-center mt-3">
+        <Container className="container ">
+        <div className="row d-flex justify-content-center mt-3 px-4">
+          <div className="col-lg-4 col-sm-12">
             <CopyRight className="text-white">© 2007-2024 &nbsp;
             <CopyRight className="text-white">Flipkart.com</CopyRight>
             </CopyRight>
-            <img src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/payment-method-c454fb.svg" alt="card"/>
+          </div>
+          <div className="col-lg-8 col-sm-12 mt-2">
+            <img className="" src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/payment-method-c454fb.svg" alt="card"/>
+          </div>
           </div>
         </Container>
       </Component>
