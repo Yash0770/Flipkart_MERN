@@ -22,11 +22,40 @@ const Wrapper = styled(Box)`
   }
 `;
 
-const Container = styled(Link)`
-  display: flex;
-  text-decoration: none;
-  color: inherit;
-`;
+const Login = styled(Button)(({ theme }) => ({
+
+  [theme.breakpoints.down("md")]: {
+    margin: '12px 0px 0px 30px'
+  },
+}));
+
+const Seller = styled(Typography)(({ theme }) => ({
+  marginTop: '3px',
+  width: "135px",
+  marginLeft: '10px',
+
+  [theme.breakpoints.down("md")]: {
+    margin: '12px 0px 0px 34px'
+  },
+}));
+
+const MoreItem = styled(Typography)(({ theme }) => ({
+  marginTop: '3px',
+
+  [theme.breakpoints.down("md")]: {
+    margin: '12px 0px 0px 34px'
+  },
+}));
+
+const Container = styled(Link)(({ theme }) => ({
+  display: "flex",
+  textDecoration: 'none',
+  color: 'inherit',
+
+  [theme.breakpoints.down("md")]: {
+    margin: '12px 0px 0px 34px'
+  },
+}));
 
 // const LoginButton = styled(Button)`
 //   color: "#2874f0";
@@ -55,14 +84,14 @@ const CustomButtons = () => {
       {account ? (
         <Profile account={account} setAccount={setAccount} />
       ) : (
-        <Button
+        <Login
           className="login-custom-btn"
           variant="contained"
           style={{
             color: "#2874f0",
             background: "#ffffff",
             textTransform: "none",
-            padding: "5px 40px",
+            // padding: "5px 40px",
             borderRadius: "2px",
             boxShadow: "none",
             fontWeight: "600",
@@ -71,15 +100,17 @@ const CustomButtons = () => {
           onClick={() => openDialog()}
         >
           Login
-        </Button>
+        </Login>
       )}
-      <Typography
+      <Seller
         className="navbar-btn"
-        style={{ marginTop: "3px", width: "135px", marginLeft: "10px" }}
+        // style={{ marginTop: "3px", width: "135px", marginLeft: "10px" }}
       >
         Become a Seller
-      </Typography>
-      <Typography style={{ marginTop: "3px" }}>More</Typography>
+      </Seller>
+      <MoreItem 
+      // style={{ marginTop: "3px" }}
+      >More</MoreItem>
       <Container to="/cart">
         <Badge badgeContent={cartItems?.length} color="secondary">
           <ShoppingCartIcon />

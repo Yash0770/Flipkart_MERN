@@ -1,17 +1,22 @@
 import { Box, Typography, styled } from "@mui/material";
 import React from "react";
 
-const Component = styled(Box)`
-    height: 65vh;
-    width: 80%;
-    background: #ffffff;
-    margin: 80px 140px;
-`
+const Component = styled(Box)(({ theme }) => ({
+  height: "65vh",
+  width: "80%",
+  background: "#ffffff",
+  margin: "80px 140px",
+
+  [theme.breakpoints.down("md")]: {
+    margin: "80px 60px",
+    width: "80%",
+  },
+}));
 
 const Container = styled(Box)`
-    text-align: center;
-    padding-top: 70px
-`
+  text-align: center;
+  padding-top: 70px;
+`;
 
 const EmptyCart = () => {
   const imgurl =
@@ -20,7 +25,7 @@ const EmptyCart = () => {
   return (
     <Component>
       <Container>
-        <img src={imgurl} alt="empty" style={{width: '15%'}} />
+        <img src={imgurl} alt="empty" style={{ width: "15%" }} />
         <Typography>Your cart is empty</Typography>
         <Typography>Add items to it now</Typography>
       </Container>

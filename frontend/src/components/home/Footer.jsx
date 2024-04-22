@@ -142,15 +142,15 @@ const Footer = () => {
           </div>
         </Container>
         <div className="horizontal-line mt-4"></div>
-        <Container className="container ">
+        <Container className="container d-flex justify-content-center">
         <div className="row d-flex justify-content-center mt-3 px-4">
-          <div className="col-lg-4 col-sm-12">
-            <CopyRight className="text-white">© 2007-2024 &nbsp;
+          <div className="col-lg-6 col-md-6 col-sm-12">
+            <CopyRight className="text-white" style={{marginLeft:'1rem'}}>© 2007-2024 &nbsp;
             <CopyRight className="text-white">Flipkart.com</CopyRight>
             </CopyRight>
           </div>
-          <div className="col-lg-8 col-sm-12 mt-2">
-            <img className="" src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/payment-method-c454fb.svg" alt="card"/>
+          <div className="col-lg-6 col-md-6 col-sm-12 mt-2">
+            <img style={{width:'100%', height:'50%'}} src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/payment-method-c454fb.svg" alt="card"/>
           </div>
           </div>
         </Container>
