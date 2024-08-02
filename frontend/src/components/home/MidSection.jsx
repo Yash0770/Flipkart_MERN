@@ -34,10 +34,10 @@ const MidSection = () => {
     <>
       {/* <FlipartBannerImage src={FlipkartBanner} alt="img" /> */}
 
-      <Wrapper lg={12} sm={12} sm={12} container>
+      <Wrapper item lg={12} sm={12} sm={12} container>
         {imageURL.map((image) => (
-          <Grid item lg={4} md={4} sm={12} xs={12}>
-            <img src={image} alt="image" style={{ width: "100%" }} />
+          <Grid item lg={4} md={4} sm={12} xs={12} key={image.id}>
+            <img src={image.url} alt="image" style={{ width: "100%" }} />
           </Grid>
         ))}
       </Wrapper>

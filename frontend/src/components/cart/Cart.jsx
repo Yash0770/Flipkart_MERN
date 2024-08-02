@@ -35,6 +35,10 @@ const StyledButton = styled(Button)`
   width: 250px;
   height: 51px;
   border-radius: 2px;
+
+    &:hover {
+    background: #f57c00;
+  }
 `;
 
 const LeftComponent = styled(Grid)(({ theme }) => ({
@@ -63,10 +67,10 @@ const Cart = () => {
         <Container container>
           <LeftComponent item lg={9} md={9} sm={12} xs={12}>
             <Header>
-              <Typography>My Cart {cartItems.length}</Typography>
+              <Typography>My Cart Items {cartItems.length}</Typography>
             </Header>
             {cartItems.map((item) => (
-              <CartItem item={item} />
+              <CartItem item={item} key={item._id} />
             ))}
             <ButtonWrapper>
               <StyledButton onClick={()=> buyNow()}>Place Order</StyledButton>

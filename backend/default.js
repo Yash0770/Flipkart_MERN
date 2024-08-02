@@ -1,4 +1,5 @@
 const Product = require("./model/product-schema.js");
+// const products = require('./constants/product.js')
 
 const DefaultData = async () => {
   try {

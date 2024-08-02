@@ -42,7 +42,6 @@ const Search = () => {
   }, [dispatch]);
 
   const [text, setText] = useState("");
-  console.log("text", text);
 
   const getText = (text) => {
     setText(text);

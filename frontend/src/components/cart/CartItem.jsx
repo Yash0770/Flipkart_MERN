@@ -1,6 +1,6 @@
 import { Box, Button, Typography, styled } from "@mui/material";
 import { addEllipsis } from "../../utils/common-utils";
-import React from "react";
+import React, { useState } from "react";
 import ButtonGroup from "./ButtonGroup";
 import { removeFromCart } from "../../redux/actions/cartActions";
 import { useDispatch } from "react-redux";
@@ -44,6 +44,11 @@ const CartItem = ({ item }) => {
     dispatch(removeFromCart(id));
   };
 
+  const [count, setCount] = useState(1)
+  const totalPrice = item.price.cost * count;
+  const discountPrice = item.price.mrp * count;
+  
+
   return (
     <Component>
       <LeftComponent>
@@ -52,7 +57,7 @@ const CartItem = ({ item }) => {
           alt="product"
           style={{ height: "110px", width: "110px" }}
         />
-        <ButtonGroup />
+        <ButtonGroup count={count} setCount={setCount} />
       </LeftComponent>
       <RightComponent>
         <Typography>{addEllipsis(item.title.longTitle)}</Typography>
@@ -68,11 +73,13 @@ const CartItem = ({ item }) => {
         </SmallText>
         <Typography style={{ margin: "20px 0px" }}>
           <Box component="span" style={{ fontWeight: "600", fontSize: "18px" }}>
-            ₹{item.price.cost}
+            {/* ₹{item.price.cost} */}
+            ₹{totalPrice}
           </Box>
           &nbsp;&nbsp;&nbsp;
           <Box component="span" style={{ color: "#878787" }}>
-            <strike>₹{item.price.mrp}</strike>
+            {/* <strike>₹{item.price.mrp}</strike> */}
+            <strike>₹{discountPrice}</strike>
           </Box>
           &nbsp;&nbsp;&nbsp;
           <Box component="span" style={{ color: "#388e3c" }}>

@@ -114,7 +114,8 @@ const Slide = ({ products, title, timer }) => {
         containerClass="carousel-container"
       >
         {products.map((product) => (
-          <Link to={`product/${product.id}`} style={{ textDecoration: "none" }}>
+          <Link to={`product/${product.id}`} style={{ textDecoration: "none" }} key={product.id}>
+            
             <Box textAlign="center" style={{ padding: "25px 15px" }}>
               <Image src={product.url} alt="product" />
               <Text style={{ fontWeight: "600", color: "#212121" }}>

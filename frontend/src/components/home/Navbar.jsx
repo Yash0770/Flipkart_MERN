@@ -21,7 +21,7 @@ const Navbar = () => {
     // className="d-flex justify-content-between"
     >
       {navData.map((data) => (
-        <div className="pt-3 px-1 text-center">
+        <div className="pt-3 px-1 text-center" key={data.text}>
           <img src={data.url} alt="nav-img" style={{ width: "64px" }} />
           <p
             className=""

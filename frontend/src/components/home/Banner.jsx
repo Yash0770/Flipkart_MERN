@@ -51,6 +51,7 @@ const Banner = () => {
       {bannerData.map((data) => (
         <Image
           src={data.url}
+          key={data.id}
           alt="banner"
           // style={{ width: "100%", height: "280px" }}
         />
