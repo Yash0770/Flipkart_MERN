@@ -1,74 +1,103 @@
 const paytmchecksum = require('../paytm/PaytmChecksum.js');
 const { paytmMerchantKey, paytmParams } = require('../index.js');
-const formidable = require('formidable');
 const https = require('https');
 
+// const addPaymentGateway = async (request, response) => {
+//     try {
+//         const paytmCheckSum = await paytmchecksum.generateSignature(paytmParams, paytmMerchantKey);
+//         const params = {
+//             ...paytmParams,
+//             'CHECKSUMHASH': paytmCheckSum
+//         };
+//         response.json(params);
+//     } catch (error) {
+//         console.error('Error in addPaymentGateway:', error);
+//         response.status(500).json({ error: 'Internal server error' });
+//     }
+// };
 const addPaymentGateway = async (request, response) => {
     try {
-        let paytmCheckSum = await paytmchecksum.generateSignature(paytmParams, paytmMerchantKey);
+        if (!paytmParams || !paytmMerchantKey) {
+            throw new Error('Paytm parameters or merchant key is missing');
+        }
+        
+        const paytmCheckSum = await paytmchecksum.generateSignature(paytmParams, paytmMerchantKey);
 
-        let params = {
-            ...paytmParams,
-            'CHECKSUMHASH': paytmCheckSum
+        if (!paytmCheckSum) {
+            throw new Error('Failed to generate checksum');
         }
 
-        response.status(200).json(params);
+        const params = {
+            ...paytmParams,
+            'CHECKSUMHASH': paytmCheckSum
+        };
+
+        response.json(params);
     } catch (error) {
-        response.status(500).json({ error: error.message })
+        console.error('Error in addPaymentGateway:', error);
+        response.status(500).json({ error: 'Internal server error' });
     }
-}
+};
+
 
 const paytmResponse = async (request, response) => {
     try {
-        const form = new formidable.IncomingForm();
-        let paytmCheckSum = request.body.CHECKSUMHASH;
+        const paytmCheckSum = request.body.CHECKSUMHASH;
         delete request.body.CHECKSUMHASH;
 
-        let isVerifySignature = paytmchecksum.verifySignature(request.body, paytmMerchantKey, paytmCheckSum)
+        const isVerifySignature = paytmchecksum.verifySignature(request.body, paytmMerchantKey, paytmCheckSum);
 
         if (isVerifySignature) {
-            let paytmParams = {};
-            paytmParams['MID'] = request.body.MID;
-            paytmParams['ORDERID'] = request.body.ORDERID;
+            const paytmParams = {
+                'MID': request.body.MID,
+                'ORDERID': request.body.ORDERID
+            };
 
-            paytmchecksum.generateSignature(paytmParams, paytmMerchantKey).then(function (checksum) {
-                paytmParams['CHECKSUMHASH'] = checksum;
+            const checksum = await paytmchecksum.generateSignature(paytmParams, paytmMerchantKey);
+            paytmParams['CHECKSUMHASH'] = checksum;
 
-                let post_data = JSON.stringify(paytmParams);
+            const post_data = JSON.stringify(paytmParams);
 
-                let options = {
-                    hostname: 'securegw-stage.paytm.in',
-                    port: 777,
-                    path: '/order/status',
-                    headers: {
-                        'Content-type': 'application/json',
-                        'Content-length': post_data.length, // Fixed typo in header
-                    }
+            const options = {
+                hostname: 'securegw-stage.paytm.in',
+                port: 443, // Correct port for HTTPS
+                path: '/order/status',
+                method: 'POST', // Method should be POST for status check
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': post_data.length
                 }
+            };
 
-                let res = '';
-                let post_req = https.request(options, function (post_res) {
-                    post_res.on('data', function (chunk) {
-                        res += chunk;
-                    });
+            let result = '';
 
-                    post_res.on('end', function () {
-                        let result = JSON.parse(res);
-                        // response.redirect('http://localhost:3000/')
-                        response.redirect('')
-                    })
-                })
+            const post_req = https.request(options, (post_res) => {
+                post_res.on('data', (chunk) => {
+                    result += chunk;
+                });
 
-                post_req.write(post_data);
-                post_req.end();
-            })
+                post_res.on('end', () => {
+                    const parsedResult = JSON.parse(result);
+                    // Handle the result as needed
+                    response.redirect('http://localhost:3000/'); // Redirect to frontend
+                });
+            });
 
+            post_req.on('error', (e) => {
+                console.error('Problem with request:', e.message);
+                response.status(500).json({ error: 'Internal server error' });
+            });
+
+            post_req.write(post_data);
+            post_req.end();
         } else {
-            console.log("Checksum mismatched");
+            console.log('Checksum mismatched');
+            response.status(400).json({ error: 'Checksum mismatched' });
         }
     } catch (error) {
-        response.status(500).json({ message: error.message });
+        console.error('Error in paytmResponse:', error);
+        response.status(500).json({ error: 'Internal server error' });
     }
-}
+};
 
 module.exports = { addPaymentGateway, paytmResponse };

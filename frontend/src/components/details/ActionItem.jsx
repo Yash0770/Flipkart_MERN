@@ -52,14 +52,28 @@ const ActionItem = ({ product }) => {
     navigate('/cart')
   }
 
-  const buyNow = async ()=>{
-    let response = await payUsingPaytm({amount: 500, email: 'yash7@gmail.com'});
-    let information = {
-      action: 'https://securegw-stage.paytm.in/order/process',
-      params: response,
-    }
-    post(information);
+  // const buyNow = async ()=>{
+  //   let response = await payUsingPaytm({amount: 500, email: 'yash7@gmail.com'});
+  //   let information = {
+  //     action: 'https://securegw-stage.paytm.in/order/process',
+  //     params: response,
+  //   }
+  //   post(information);
+  // }
+  
+const buyNow = async () => {
+  let response = await payUsingPaytm({ amount: 500, email: 'yash7@gmail.com'});
+  if (!response || typeof response !== 'object') {
+    console.error('Invalid response from payUsingPaytm');
+    return;
   }
+  
+  var information = {
+      action: 'https://securegw-stage.paytm.in/order/process',
+      params: response    
+  }
+  post(information);
+}
 
   return (
     <LeftContainer>

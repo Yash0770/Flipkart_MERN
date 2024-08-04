@@ -2,7 +2,6 @@ import axios from "axios";
 
 // const URL = "http://localhost:7000";
 const URL = "https://yash-flipkart-clone-backend.vercel.app";
-// const URL = "";
 
 export const authenticateSignup = async (data) => {
   try {
@@ -21,11 +20,27 @@ export const authenticateLogin = async (data) => {
   }
 };
 
+// export const payUsingPaytm = async (data) => {
+//   try {
+//     const response = await axios.post(`${URL}/payment`, data);
+//     return response.data;
+//   } catch (error) {
+//     console.log("Error while calling payment api", error);
+//   }
+// };
+
+//working
 export const payUsingPaytm = async (data) => {
   try {
     const response = await axios.post(`${URL}/payment`, data);
-    return response.data;
+    if (response.data) {
+      return response.data;
+    } else {
+      console.log("No data returned from API");
+      return {}; // Ensure it returns an object
+    }
   } catch (error) {
     console.log("Error while calling payment api", error);
+    return {};
   }
 };
