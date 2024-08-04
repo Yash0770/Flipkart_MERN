@@ -1,11 +1,13 @@
 import { Box, Button, Grid, Typography, styled } from "@mui/material";
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import CartItem from "./CartItem";
 import TotalView from "./TotalView";
 import EmptyCart from "./EmptyCart";
 import { payUsingPaytm } from "../../service/api";
 import { post } from "../../utils/paytm";
+import { DataContext } from "../../context/DataProvider";
+import LoginDialog from "../login/LoginDialog";
 
 const Container = styled(Grid)(({ theme }) => ({
   padding: "30px 135px",
@@ -52,13 +54,20 @@ const LeftComponent = styled(Grid)(({ theme }) => ({
 const Cart = () => {
   const { cartItems } = useSelector((state) => state.cart);
 
+  let [open, setOpen] = useState(false);
+  const { account } = useContext(DataContext);  
+
   const buyNow = async ()=>{
-    let response = await payUsingPaytm({amount: 500, email: 'yash7@gmail.com'});
-    let information = {
-      action: 'https://securegw-stage.paytm.in/order/process',
-      params: response,
+    if (account.length>0) {
+      let response = await payUsingPaytm({amount: 500, email: 'yash7@gmail.com'});
+      let information = {
+        action: 'https://securegw-stage.paytm.in/order/process',
+        params: response,
+      }
+      post(information);
+    }else{
+      setOpen(true)
     }
-    post(information);
   }
 
   return (
@@ -79,6 +88,7 @@ const Cart = () => {
           <Grid item lg={3} md={3} sm={12} xs={12}>
             <TotalView cartItems={cartItems} />
           </Grid>
+        <LoginDialog open={open} setOpen={setOpen} />
         </Container>
       ) : (
         <EmptyCart />

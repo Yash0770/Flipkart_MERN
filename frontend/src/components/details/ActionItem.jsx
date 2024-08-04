@@ -1,5 +1,5 @@
 import { Box, Button, styled } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FlashOnIcon from "@mui/icons-material/FlashOn";
 import { useDispatch } from "react-redux";
@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { addToCart } from "../../redux/actions/cartActions";
 import { payUsingPaytm } from "../../service/api";
 import { post } from "../../utils/paytm";
+import LoginDialog from "../login/LoginDialog";
+import { DataContext } from "../../context/DataProvider";
 
 const LeftContainer = styled(Box)(({ theme }) => ({
   minWidth: "40%",
@@ -60,19 +62,29 @@ const ActionItem = ({ product }) => {
   //   }
   //   post(information);
   // }
+
+  let [open, setOpen] = useState(false);
+
+  const { account } = useContext(DataContext);  
   
 const buyNow = async () => {
-  let response = await payUsingPaytm({ amount: 500, email: 'yash7@gmail.com'});
-  if (!response || typeof response !== 'object') {
-    console.error('Invalid response from payUsingPaytm');
-    return;
+
+  if (account.length>0) {
+    let response = await payUsingPaytm({ amount: 500, email: 'yash7@gmail.com'});
+    if (!response || typeof response !== 'object') {
+      console.error('Invalid response from payUsingPaytm');
+      return;
+    }
+    
+    var information = {
+        action: 'https://securegw-stage.paytm.in/order/process',
+        params: response    
+    }
+    post(information);
+  }else{
+    setOpen(true)
   }
-  
-  var information = {
-      action: 'https://securegw-stage.paytm.in/order/process',
-      params: response    
-  }
-  post(information);
+
 }
 
   return (
@@ -99,6 +111,7 @@ const buyNow = async () => {
         <FlashOnIcon />
         Buy now
       </StyledButton>
+      <LoginDialog open={open} setOpen={setOpen} />
     </LeftContainer>
   );
 };

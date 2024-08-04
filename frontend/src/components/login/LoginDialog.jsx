@@ -43,18 +43,19 @@ const LoginDialog = ({ open, setOpen }) => {
   const [account, toggleAccount] = useState(accountInitialValues.login);
   const [signup, setSignup] = useState(signupInitialValues);
   const [login, setLogin] = useState(loginInitialValues);
-  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const { setAccount } = useContext(DataContext);
 
   const toggleSignup = () => {
     toggleAccount(accountInitialValues.signUp);
+    setErrors({});
   };
 
   const handleClose = () => {
     setOpen(false);
     toggleAccount(accountInitialValues.login);
-    setError(false);
+    setErrors({});
   };
 
   const onInputChange = (e) => {
@@ -64,29 +65,98 @@ const LoginDialog = ({ open, setOpen }) => {
     });
   };
 
+  const onValueChange = (e) => {
+    setLogin({
+      ...login,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const validateSignup = () => {
+    const newErrors = {};
+
+    if (!signup.firstname.trim()) {
+      newErrors.firstname = "First name is required";
+    } else if (signup.firstname.length < 5) {
+      newErrors.firstname = "First name must be at least 5 characters long";
+    }
+
+    if (!signup.lastname.trim()) {
+      newErrors.lastname = "Last name is required";
+    } else if (signup.lastname.length < 5) {
+      newErrors.lastname = "Last name must be at least 5 characters long";
+    }
+
+    if (!signup.username.trim()) {
+      newErrors.username = "Username is required";
+    } else if (signup.username.length < 5) {
+      newErrors.username = "Username must be at least 5 characters long";
+    } else if (!/^[a-zA-Z0-9_]+$/.test(signup.username)) {
+      newErrors.username =
+        "Username can only contain letters, numbers, and underscores";
+    }
+
+    if (!signup.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(signup.email)) {
+      newErrors.email = "Email is invalid";
+    }
+
+    if (!signup.password) {
+      newErrors.password = "Password is required";
+    } else if (signup.password.length < 8 || signup.password.length > 14) {
+      newErrors.password = "Password must be between 8 and 14 characters long";
+    } else if (!/(?=.*[a-z])/.test(signup.password)) {
+      newErrors.password = "Password must include a lowercase letter";
+    } else if (!/(?=.*[A-Z])/.test(signup.password)) {
+      newErrors.password = "Password must include an uppercase letter";
+    } else if (!/(?=.*\d)/.test(signup.password)) {
+      newErrors.password = "Password must include a number";
+    } else if (!/(?=.*[@$!%*?&])/.test(signup.password)) {
+      newErrors.password = "Password must include a special character (@$!%*?&)";
+    }
+
+    if (!signup.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^\d{10}$/.test(signup.phone)) {
+      newErrors.phone = "Phone number must be 10 digits";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const validateLogin = () => {
+    const newErrors = {};
+
+    if (!login.username.trim()) {
+      newErrors.username = "Username is required";
+    }
+
+    if (!login.password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const signupUser = async () => {
+    if (!validateSignup()) return;
     let response = await authenticateSignup(signup);
-    console.log("res", response);
     if (!response) return;
     handleClose();
     setAccount(signup.firstname);
   };
 
-  const onValueChange = (e) => {
-    setLogin({
-      ...login,
-      [e.target.name]: [e.target.value],
-    });
-  };
-
   const loginUser = async () => {
+    if (!validateLogin()) return;
     let response = await authenticateLogin(login);
-    console.log("res", response);
     if (response.status === 200) {
       handleClose();
       setAccount(response.data.data.firstname);
     } else {
-      setError(true);
+      setErrors({ general: "Invalid username or password" });
     }
   };
 
@@ -103,7 +173,6 @@ const LoginDialog = ({ open, setOpen }) => {
             style={{
               background: "#2874f0",
               height: "100%",
-              //   width: "40%",
               width: "35%",
               padding: "45px 35px",
             }}
@@ -131,19 +200,22 @@ const LoginDialog = ({ open, setOpen }) => {
             >
               <TextField
                 variant="standard"
-                // label="Enter Email/Mobile Number"
                 label="Enter Username"
                 onChange={(e) => onValueChange(e)}
                 name="username"
               />
-              {error && <Error>Please enter valid username or password</Error>}
+              {errors.username && <Error>{errors.username}</Error>}
+
               <TextField
                 variant="standard"
                 label="Enter Password"
                 className="mt-3"
                 onChange={(e) => onValueChange(e)}
                 name="password"
+                type="password"
               />
+              {errors.password && <Error>{errors.password}</Error>}
+              {errors.general && <Error>{errors.general}</Error>}
               <p
                 className="mt-3"
                 style={{ fontSize: "12px", color: "#878787" }}
@@ -205,7 +277,10 @@ const LoginDialog = ({ open, setOpen }) => {
                 variant="standard"
                 label="Enter Firstname"
                 onChange={(e) => onInputChange(e)}
+                // error={!!errors.firstname}
+                // helperText={errors.firstname}
               />
+              {errors.firstname && <Error>{errors.firstname}</Error>}
               <TextField
                 name="lastname"
                 variant="standard"
@@ -213,6 +288,7 @@ const LoginDialog = ({ open, setOpen }) => {
                 className="mt-3"
                 onChange={(e) => onInputChange(e)}
               />
+              {errors.lastname && <Error>{errors.lastname}</Error>}
               <TextField
                 name="username"
                 variant="standard"
@@ -220,6 +296,7 @@ const LoginDialog = ({ open, setOpen }) => {
                 className="mt-3"
                 onChange={(e) => onInputChange(e)}
               />
+              {errors.username && <Error>{errors.username}</Error>}
               <TextField
                 name="email"
                 variant="standard"
@@ -227,13 +304,16 @@ const LoginDialog = ({ open, setOpen }) => {
                 className="mt-3"
                 onChange={(e) => onInputChange(e)}
               />
+              {errors.email && <Error>{errors.email}</Error>}
               <TextField
                 name="password"
                 variant="standard"
                 label="Enter Password"
                 className="mt-3"
                 onChange={(e) => onInputChange(e)}
+                type="password"
               />
+              {errors.password && <Error>{errors.password}</Error>}
               <TextField
                 name="phone"
                 variant="standard"
@@ -241,6 +321,7 @@ const LoginDialog = ({ open, setOpen }) => {
                 className="mt-3"
                 onChange={(e) => onInputChange(e)}
               />
+              {errors.phone && <Error>{errors.phone}</Error>}
               <Button
                 className="mt-4 text-white"
                 style={{
